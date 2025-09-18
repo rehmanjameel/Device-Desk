@@ -62,4 +62,11 @@ dependencies {
 
     // refresh layout
     implementation(libs.androidx.swiperefreshlayout)
+
+    //
+    implementation(libs.androidx.fragment.ktx)
+
+    // fragment navigation
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
 }

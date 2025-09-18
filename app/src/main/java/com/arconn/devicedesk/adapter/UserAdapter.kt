@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.arconn.devicedesk.R
-import com.arconn.devicedesk.helpers.Resource
 import com.arconn.devicedesk.model.UsersModel
 
 class UserAdapter(
@@ -31,8 +30,8 @@ class UserAdapter(
     ) {
         val item = usersList[position]
 
-        holder.userName.text = item.name
-        holder.userEmail.text = item.email
+        holder.userName?.text = item.name
+        holder.userEmail?.text = item.email
     }
 
     override fun getItemCount(): Int {
@@ -41,8 +40,8 @@ class UserAdapter(
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        val userName = itemView.findViewById<TextView>(R.id.userName)
-        val userEmail = itemView.findViewById<TextView>(R.id.userEmail)
+        val userName: TextView? = itemView.findViewById(R.id.userName)
+        val userEmail: TextView? = itemView.findViewById(R.id.userEmail)
     }
 
 }
