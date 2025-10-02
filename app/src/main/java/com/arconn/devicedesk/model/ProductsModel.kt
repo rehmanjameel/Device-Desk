@@ -1,6 +1,5 @@
 package com.arconn.devicedesk.model
 
-import android.accessibilityservice.GestureDescription
 import java.math.BigDecimal
 
 class ProductsModel(

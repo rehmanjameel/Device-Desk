@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.arconn.devicedesk.R
 import com.arconn.devicedesk.adapter.UserAdapter
 import com.arconn.devicedesk.databinding.FragmentUsersBinding
@@ -26,6 +27,7 @@ class UsersFragment : Fragment() {
     private lateinit var binding: FragmentUsersBinding
 
     private lateinit var userAdapter: UserAdapter
+    var swipeRefreshLayout: SwipeRefreshLayout? = null
 
     private val usersViewModel: UsersViewModel by viewModels {
         UserViewModelFactory(UserRepository(RetrofitHelper.apiService))
@@ -40,12 +42,11 @@ class UsersFragment : Fragment() {
 
         binding.usersRV.layoutManager = LinearLayoutManager(AppGlobals.applicationContext())
 
-        fetchUsers()
-
         binding.addFB.setOnClickListener {
 
             findNavController().navigate(R.id.action_usersFragment_to_addUserFragment)
         }
+        swipeRefreshLayout = binding.refreshLayout
 
         return binding.root
     }
@@ -59,6 +60,7 @@ class UsersFragment : Fragment() {
                 is Resource.Success -> {
                     userAdapter = UserAdapter(AppGlobals.applicationContext(), state.data)
                     binding.usersRV.adapter = userAdapter
+                    binding.tv.text = getString(R.string.app_name)
 
                     Log.e("api call", state.toString())
                 }
