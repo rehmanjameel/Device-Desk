@@ -89,6 +89,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             app:endIconMode="password_toggle"
+            android:visibility="gone"
             >
 
             <com.google.android.material.textfield.TextInputEditText

@@ -62,7 +62,7 @@ class AddUserFragment : Fragment() {
         } else if (userName.isEmpty()) {
             binding.userNameTIET.error = "Field required"
 
-        } else if (userEmail.isEmpty() || validator.isValidMail(userEmail)) {
+        } else if (userEmail.isEmpty() || !validator.isValidMail(userEmail)) {
             binding.userEmailTIET.error = "Field required or invalid email"
 
         } else if (password.isEmpty()) {

@@ -12,3 +12,8 @@ data class CreateUser(
     val email: String,
     val password: String
 )
+
+data class UpdateUser(
+    val name: String,
+    val email: String
+)

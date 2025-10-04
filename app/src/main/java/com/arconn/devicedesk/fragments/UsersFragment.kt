@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -17,12 +18,17 @@ import com.arconn.devicedesk.adapter.UserAdapter
 import com.arconn.devicedesk.databinding.FragmentUsersBinding
 import com.arconn.devicedesk.helpers.Resource
 import com.arconn.devicedesk.helpers.RetrofitHelper
+import com.arconn.devicedesk.iterfaces.ItemClickListener
+import com.arconn.devicedesk.model.UsersModel
 import com.arconn.devicedesk.repository.UserRepository
 import com.arconn.devicedesk.utils.AppGlobals
 import com.arconn.devicedesk.viewmodel.UserViewModelFactory
 import com.arconn.devicedesk.viewmodel.UsersViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-class UsersFragment : Fragment() {
+class UsersFragment : Fragment(), ItemClickListener {
 
     private lateinit var binding: FragmentUsersBinding
 
@@ -53,17 +59,19 @@ class UsersFragment : Fragment() {
 
     fun fetchUsers() {
         // call retrofit api here
-        usersViewModel.users.observe(viewLifecycleOwner) {state ->
-            when(state) {
+        usersViewModel.users.observe(viewLifecycleOwner) { state ->
+            when (state) {
                 is Resource.Loading<*> -> Log.e("loading", "some loading")
 
                 is Resource.Success -> {
                     userAdapter = UserAdapter(AppGlobals.applicationContext(), state.data)
+                    userAdapter.listener = this
                     binding.usersRV.adapter = userAdapter
                     binding.tv.text = getString(R.string.app_name)
 
                     Log.e("api call", state.toString())
                 }
+
                 is Resource.Error -> {
                     binding.tv.text = "error"
                     Log.e("errors", "some error")
@@ -88,4 +96,48 @@ class UsersFragment : Fragment() {
         }
     }
 
+    override fun onDeleteClick(item: UsersModel) {
+
+        showDialog(item)
+    }
+
+    override fun onEditClick(item: UsersModel) {
+
+    }
+
+    private fun showDialog(item: UsersModel) {
+
+        val materialDialog = MaterialAlertDialogBuilder(requireActivity())
+
+        materialDialog.setTitle("Delete User")
+        materialDialog.setMessage("Are you sure you want to delete this user?")
+
+        materialDialog.setPositiveButton("Yes") { dialog, which ->
+            usersViewModel.userDeletion.observe(viewLifecycleOwner) {state ->
+                when(state) {
+                    is Resource.Loading<*> -> Log.e("loading", "some loading")
+
+                    is Resource.Success -> {
+                        fetchUsers()
+                    }
+
+                    is Resource.Error -> {
+                        Log.e("error", "some error")
+                    }
+                }
+            }
+            usersViewModel.deleteUser(item.id)
+            lifecycleScope.launch {
+
+                delay(200)
+                fetchUsers()
+            }
+        }
+
+        materialDialog.setNegativeButton("No") { dialog, which ->
+            dialog.dismiss()
+        }
+
+        materialDialog.show()
+    }
 }
