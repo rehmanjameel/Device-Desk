@@ -15,8 +15,9 @@ class UserRepository(private val usersAPI: UsersAPI) {
         return usersAPI.saveUser(request)
     }
 
-    suspend fun deleteUser(id: Int) : UsersModel {
-        return usersAPI.deleteUser(id)
+    suspend fun deleteUser(id: Int) : Boolean {
+        val response = usersAPI.deleteUser(id)
+        return response.isSuccessful
     }
 
     suspend fun updateUser(id: Int, request: UpdateUser) : UsersModel {

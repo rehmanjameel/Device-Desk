@@ -54,6 +54,9 @@ class UsersFragment : Fragment(), ItemClickListener {
         }
         swipeRefreshLayout = binding.refreshLayout
 
+        // call the delete observer once
+        deleteObserver()
+
         return binding.root
     }
 
@@ -113,25 +116,10 @@ class UsersFragment : Fragment(), ItemClickListener {
         materialDialog.setMessage("Are you sure you want to delete this user?")
 
         materialDialog.setPositiveButton("Yes") { dialog, which ->
-            usersViewModel.userDeletion.observe(viewLifecycleOwner) {state ->
-                when(state) {
-                    is Resource.Loading<*> -> Log.e("loading", "some loading")
 
-                    is Resource.Success -> {
-                        fetchUsers()
-                    }
-
-                    is Resource.Error -> {
-                        Log.e("error", "some error")
-                    }
-                }
-            }
             usersViewModel.deleteUser(item.id)
-            lifecycleScope.launch {
 
-                delay(200)
-                fetchUsers()
-            }
+            dialog.dismiss()
         }
 
         materialDialog.setNegativeButton("No") { dialog, which ->
@@ -139,5 +127,24 @@ class UsersFragment : Fragment(), ItemClickListener {
         }
 
         materialDialog.show()
+    }
+
+    private fun deleteObserver() {
+        usersViewModel.userDeletion.observe(viewLifecycleOwner) {state ->
+
+            when(state) {
+                is Resource.Loading<*> -> Log.e("loading", "delete loading $state")
+
+                is Resource.Success -> {
+                    Log.e("loading", "data deleted successfully $state")
+                    fetchUsers()
+
+                }
+
+                is Resource.Error -> {
+                    Log.e("error", "some error $state")
+                }
+            }
+        }
     }
 }

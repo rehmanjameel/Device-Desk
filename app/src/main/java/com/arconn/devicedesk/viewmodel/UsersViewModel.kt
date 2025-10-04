@@ -20,8 +20,8 @@ class UsersViewModel(private val repository: UserRepository) : ViewModel() {
     private val _userCreation = MutableLiveData<Resource<UsersModel>>()
     val userCreation: LiveData<Resource<UsersModel>> = _userCreation
 
-    private val _userDeletion = MutableLiveData<Resource<UsersModel>>()
-    val userDeletion: LiveData<Resource<UsersModel>> = _userDeletion
+    private val _userDeletion = MutableLiveData<Resource<Unit>>()
+    val userDeletion: LiveData<Resource<Unit>> = _userDeletion
 
     private val _userUpdate = MutableLiveData<Resource<UsersModel>>()
     val userUpdate: LiveData<Resource<UsersModel>> = _userUpdate
@@ -58,7 +58,11 @@ class UsersViewModel(private val repository: UserRepository) : ViewModel() {
             _userDeletion.value = Resource.Loading()
             try {
                 val response = repository.deleteUser(id)
-                _userDeletion.value = Resource.Success(response)
+                if (response) {
+                    _userDeletion.value = Resource.Success(Unit)
+                } else {
+                    _userDeletion.value = Resource.Error("Failed to delete user")
+                }
             } catch (e: Exception) {
                 _userDeletion.value = Resource.Error(e.message ?: "Unknown Error")
             }
