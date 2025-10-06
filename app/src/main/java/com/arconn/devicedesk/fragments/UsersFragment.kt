@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -25,8 +24,7 @@ import com.arconn.devicedesk.utils.AppGlobals
 import com.arconn.devicedesk.viewmodel.UserViewModelFactory
 import com.arconn.devicedesk.viewmodel.UsersViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+
 
 class UsersFragment : Fragment(), ItemClickListener {
 
@@ -106,6 +104,9 @@ class UsersFragment : Fragment(), ItemClickListener {
 
     override fun onEditClick(item: UsersModel) {
 
+        val action = UsersFragmentDirections.actionUsersFragmentToEditUserFragment(item.id,
+            item.name, item.email)
+        findNavController().navigate(action)
     }
 
     private fun showDialog(item: UsersModel) {

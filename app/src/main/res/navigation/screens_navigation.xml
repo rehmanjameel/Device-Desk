@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_usersFragment_to_addUserFragment"
             app:destination="@id/addUserFragment" />
+        <action
+            android:id="@+id/action_usersFragment_to_editUserFragment"
+            app:destination="@id/editUserFragment" />
     </fragment>
 
     <fragment
@@ -23,6 +26,25 @@
         <action
             android:id="@+id/action_addUserFragment_to_usersFragment"
             app:destination="@id/usersFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editUserFragment"
+        android:name="com.arconn.devicedesk.fragments.EditUserFragment"
+        android:label="fragment_edit_user"
+        tools:layout="@layout/fragment_edit_user" >
+        <action
+            android:id="@+id/action_editUserFragment_to_usersFragment"
+            app:destination="@id/usersFragment" />
+
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <argument
+            android:name="userName"
+            app:argType="string"/>
+        <argument
+            android:name="email"
+            app:argType="string" />
     </fragment>
 
 </navigation>

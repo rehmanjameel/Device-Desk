@@ -40,6 +40,10 @@ class UserAdapter(
         holder.delete.setOnClickListener {
             listener?.onDeleteClick(item)
         }
+
+        holder.editUser.setOnClickListener {
+            listener?.onEditClick(item)
+        }
     }
 
     override fun getItemCount(): Int {
