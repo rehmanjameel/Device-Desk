@@ -1,6 +1,6 @@
 package com.arconn.devicedesk.helpers
 
-import com.arconn.devicedesk.iterfaces.UsersAPI
+import com.arconn.devicedesk.interfaces.UsersAPI
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

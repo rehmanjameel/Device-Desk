@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.arconn.devicedesk.R
-import com.arconn.devicedesk.iterfaces.ItemClickListener
+import com.arconn.devicedesk.interfaces.ItemClickListener
 import com.arconn.devicedesk.model.UsersModel
 
 class UserAdapter(

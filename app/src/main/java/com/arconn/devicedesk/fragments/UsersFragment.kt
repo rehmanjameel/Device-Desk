@@ -17,7 +17,7 @@ import com.arconn.devicedesk.adapter.UserAdapter
 import com.arconn.devicedesk.databinding.FragmentUsersBinding
 import com.arconn.devicedesk.helpers.Resource
 import com.arconn.devicedesk.helpers.RetrofitHelper
-import com.arconn.devicedesk.iterfaces.ItemClickListener
+import com.arconn.devicedesk.interfaces.ItemClickListener
 import com.arconn.devicedesk.model.UsersModel
 import com.arconn.devicedesk.repository.UserRepository
 import com.arconn.devicedesk.utils.AppGlobals

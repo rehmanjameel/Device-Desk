@@ -1,4 +1,4 @@
-package com.arconn.devicedesk.iterfaces
+package com.arconn.devicedesk.interfaces
 
 import com.arconn.devicedesk.model.UsersModel
 
